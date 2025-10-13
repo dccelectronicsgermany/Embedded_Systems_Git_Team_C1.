@@ -1,6 +1,6 @@
 # Traffic_Light_System_Development_and_Simulation_by_Hochschule_Hamm-Lippstadt_Embedded_Systems_Git_Team_C1.
 
-Team Members Includes: 
+Team members includes: 
 1. Daniel Chidi CHIMEZIE
 2. Dilruba DON
 3. MD Mahmudul Hasan RABBI
