@@ -1,4 +1,12 @@
-# Embedded_Systems_Git_Team_C1.
+# Traffic_Light_System_Development_and_Simulation_by_Hochschule_Hamm-Lippstadt_Embedded_Systems_Git_Team_C1.
+
+Team Members Includes: 
+1. Daniel Chidi CHIMEZIE
+2. Dilruba DON
+3. MD Mahmudul Hasan RABBI
+
+SUPERVISED BY 
+Dr. Faezeh PASANDIDEH
 
 1. Introduction
 
@@ -18,7 +26,7 @@ Block diagram or SysML model
 
 Control logic description
 
-Simulation tools used (e.g., MATLAB, Simulink, Python)
+Simulation tools used (e.g.TrinkerCad. WOKWI, Multisim etc)
 
 4. Implementation
 
@@ -30,7 +38,7 @@ Git version control and branching strategy (optional)
 
 5. Simulation and Results
 
-Screenshots or graphs from simulation runs
+Screenshots or graphics from simulation runs
 
 Discussion of performance and behavior
 
