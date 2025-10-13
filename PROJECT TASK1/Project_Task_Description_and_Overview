@@ -1,0 +1,23 @@
+**Traffic Light System**
+ First scenario of a traffic light system
+ One line and one traffic light (red, yellow, green light)
+ Control the lights with respect to timing
+ Use time events like t20 for the presentation of the switching delay
+ Model the traffic light system with the following diagrams
+ Structure: a class diagram that represents the main structural elements
+ State machine diagram for each class
+ What are the possible states, transitions, events, …?
+ Test all relevant scenarios!
+ Use for a fast “drawing” the open draw.io tool
+ Develop a simulation for the traffic light control system
+ Make yourself familiar with Arduino simulators like Tinkercad Circuits or Wokwi and realize a
+ simulation for your traffic light realization
+ Use leds as traffic light
+ Use an Arduino as μC
+ Map the state machine model to code (via switch state pattern!)
+ Develop a circuit for leds
+ Determine the required voltage, current and resistant of the series resistor
+ For the circuit design you can use MultiSim
+ Create a private git repository (at github) based on your university mail account
+ Upload all relevant models/documents to the repository - > professionally push updates of for
+ your models/documents to your repository
