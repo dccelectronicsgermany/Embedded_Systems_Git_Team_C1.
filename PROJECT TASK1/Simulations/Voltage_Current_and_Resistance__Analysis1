@@ -1,0 +1,39 @@
+Voltage, current and resistance of the series resistor
+
+For Red LED,
+
+Vdrop = Vcc − Vf_red = 5.00 − 2.00 = 3.00 V
+
+I = 0.015 A
+
+R = 3.00 / 0.015
+
+compute: 3.00 ÷ 0.015 = 200.0 → 200 Ω
+
+Use nearest standard resistor: 220 Ω (E12).
+
+Power dissipated in the resistor:
+
+P= Vdrop * I = 3.00⋅0.015= 0.045 W → 45 mW
+
+For the Yellow LED,
+
+Vdrop = 5.00 − 2.00 = 3.00 V
+
+R = 3.00 / 0.015 = 200 Ω → use 220 Ω
+
+Power: 3.00 * 0.015 = 0.045 W
+
+For Green LED,
+
+Vdrop = 5.00 − 2.10 = 2.90 V
+
+R = 2.90 / 0.015
+
+compute: 2.90 ÷ 0.015 = 193.333... → 193.33 Ω
+
+Use 220 Ω standard value.
+
+Power: 2.90 * 0.015 = 0.0435 W
+
+
