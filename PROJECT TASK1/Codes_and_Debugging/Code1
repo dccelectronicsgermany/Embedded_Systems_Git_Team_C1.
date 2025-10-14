@@ -1,1 +1,35 @@
+// Traffic Light System
+
+// LED pins
+int redLED = 10;
+int yellowLED = 9;
+int greenLED = 8;
+
+void setup() {
+// Set pins
+pinMode(redLED, OUTPUT);
+pinMode(yellowLED, OUTPUT);
+pinMode(greenLED, OUTPUT);
+}
+
+void loop() {
+// Red light 5 seconds
+digitalWrite(redLED, HIGH);
+digitalWrite(yellowLED, LOW);
+digitalWrite(greenLED, LOW);
+delay(5000);
+
+// Yellow light 2 seconds
+digitalWrite(redLED, LOW);
+digitalWrite(yellowLED, HIGH);
+digitalWrite(greenLED, LOW);
+delay(2000);
+
+// Green light 5 seconds
+digitalWrite(redLED, LOW);
+digitalWrite(yellowLED, LOW);
+digitalWrite(greenLED, HIGH);
+delay(5000);
+}
+
 
