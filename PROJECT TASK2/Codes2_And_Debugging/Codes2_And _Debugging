@@ -1,0 +1,152 @@
+// Traffic Light States
+enum TrafficState {
+  CAR_GREEN,
+  CAR_YELLOW, 
+  CAR_RED
+};
+
+// Pedestrian Light States
+enum PedestrianState {
+  PED_RED,
+  PED_GREEN
+};
+
+// System Control Class
+class TrafficSystem {
+private:
+  TrafficState carState;
+  PedestrianState pedState;
+  bool buttonPressed;
+  unsigned long stateStartTime;
+  unsigned long pedGreenStartTime;
+  bool pedRequestPending;
+  
+  // Pin definitions
+  int carRedPin, carYellowPin, carGreenPin;
+  int pedRedPin, pedGreenPin;
+  int buttonPin;
+
+public:
+  TrafficSystem(int cr, int cy, int cg, int pr, int pg, int btn) {
+    carRedPin = cr;
+    carYellowPin = cy;
+    carGreenPin = cg;
+    pedRedPin = pr;
+    pedGreenPin = pg;
+    buttonPin = btn;
+    
+    pinMode(carRedPin, OUTPUT);
+    pinMode(carYellowPin, OUTPUT);
+    pinMode(carGreenPin, OUTPUT);
+    pinMode(pedRedPin, OUTPUT);
+    pinMode(pedGreenPin, OUTPUT);
+    pinMode(buttonPin, INPUT_PULLUP);
+    
+    carState = CAR_GREEN;
+    pedState = PED_RED;
+    buttonPressed = false;
+    pedRequestPending = false;
+    stateStartTime = millis();
+  }
+
+  void update() {
+    checkButton();
+    unsigned long currentTime = millis();
+    unsigned long stateDuration = currentTime - stateStartTime;
+    
+    switch(carState) {
+      case CAR_GREEN:
+        setCarLights(HIGH, LOW, LOW);  // Green on
+        setPedestrianLights(LOW, HIGH); // Red on (pedestrian)
+        
+        // Check if we should transition due to pedestrian request
+        if (pedRequestPending && stateDuration >= 10000) { // Min 10s green
+          carState = CAR_YELLOW;
+          stateStartTime = currentTime;
+          pedRequestPending = false;
+        }
+        // Normal cycle transition after longer period
+        else if (stateDuration >= 15000) { // Extended green time
+          carState = CAR_YELLOW;
+          stateStartTime = currentTime;
+        }
+        break;
+        
+      case CAR_YELLOW:
+        setCarLights(LOW, HIGH, LOW);  // Yellow on
+        setPedestrianLights(LOW, HIGH); // Red on (pedestrian)
+        
+        if (stateDuration >= 5000) { // 5 seconds yellow
+          carState = CAR_RED;
+          stateStartTime = currentTime;
+          pedGreenStartTime = currentTime;
+        }
+        break;
+        
+      case CAR_RED:
+        setCarLights(LOW, LOW, HIGH);  // Red on
+        
+        // First part: pedestrian green
+        if (stateDuration <= 10000) { // 10 seconds pedestrian green
+          setPedestrianLights(HIGH, LOW); // Green on (pedestrian)
+        } 
+        // Second part: pedestrian blinking/warning
+        else if (stateDuration <= 15000) {
+          // Blink pedestrian green
+          bool blinkState = (currentTime / 500) % 2;
+          setPedestrianLights(blinkState ? HIGH : LOW, blinkState ? LOW : HIGH);
+        }
+        // Return to car green
+        else if (stateDuration >= 15000) {
+          setPedestrianLights(LOW, HIGH); // Red on (pedestrian)
+          carState = CAR_GREEN;
+          stateStartTime = currentTime;
+        }
+        break;
+    }
+  }
+
+  void checkButton() {
+    if (digitalRead(buttonPin) == LOW) {
+      delay(50); // Debounce
+      if (digitalRead(buttonPin) == LOW) {
+        handleButtonPress();
+      }
+    }
+  }
+
+  void handleButtonPress() {
+    if (carState == CAR_GREEN) {
+      pedRequestPending = true;
+    }
+    // Ignore button if already in process or pedestrian has green
+  }
+
+private:
+  void setCarLights(bool red, bool yellow, bool green) {
+    digitalWrite(carRedPin, red);
+    digitalWrite(carYellowPin, yellow);
+    digitalWrite(carGreenPin, green);
+  }
+
+  void setPedestrianLights(bool green, bool red) {
+    digitalWrite(pedGreenPin, green);
+    digitalWrite(pedRedPin, red);
+  }
+};
+
+// Global traffic system instance
+TrafficSystem* trafficSystem;
+
+void setup() {
+  // Initialize traffic system with pin assignments:
+  // Car: Red=2, Yellow=3, Green=4
+  // Pedestrian: Red=5, Green=6
+  // Button=7
+  trafficSystem = new TrafficSystem(2, 3, 4, 5, 6, 7);
+}
+
+void loop() {
+  trafficSystem->update();
+  delay(100); // Small delay to prevent overwhelming the microcontroller
+}
