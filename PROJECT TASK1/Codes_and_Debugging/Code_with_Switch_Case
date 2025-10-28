@@ -1,0 +1,74 @@
+The code with the switch case,
+
+// Traffic Light Controller (switch-state pattern, non-blocking)
+
+enum TrafficState { GREEN, YELLOW, RED };
+
+// Function prototypes (important for Arduino compiler)
+void changeState(enum TrafficState newState);
+void updateOutputs();
+
+const int pinGreen = 8;
+const int pinYellow = 9;
+const int pinRed = 10;
+
+// durations in milliseconds
+const unsigned long tGreen = 8000UL; // 8 s
+const unsigned long tYellow = 2000UL; // 2 s
+const unsigned long tRed = 10000UL; // 10 s
+
+TrafficState state = RED;
+unsigned long stateStart = 0;
+
+void setup() {
+pinMode(pinGreen, OUTPUT);
+pinMode(pinYellow, OUTPUT);
+pinMode(pinRed, OUTPUT);
+
+Serial.begin(9600);
+state = RED;
+stateStart = millis();
+updateOutputs();
+}
+
+void loop() {
+unsigned long now = millis();
+unsigned long elapsed = now - stateStart;
+
+switch (state) {
+case GREEN:
+if (elapsed >= tGreen) {
+changeState(YELLOW);
+}
+break;
+
+case YELLOW:
+  if (elapsed >= tYellow) {
+    changeState(RED);
+  }
+  break;
+
+case RED:
+  if (elapsed >= tRed) {
+    changeState(GREEN);
+  }
+  break;
+
+}
+}
+
+void changeState(enum TrafficState newState) {
+state = newState;
+stateStart = millis();
+updateOutputs();
+
+Serial.print("State -> ");
+if (state == GREEN) Serial.println("GREEN");
+else if (state == YELLOW) Serial.println("YELLOW");
+else if (state == RED) Serial.println("RED");
+}
+
+void updateOutputs() {
+digitalWrite(pinGreen, state == GREEN ? HIGH : LOW);
+digitalWrite(pinYellow, state == YELLOW ? HIGH : LOW);
+digitalWrite(pinRed, state == RED ? HIGH : LOW);
