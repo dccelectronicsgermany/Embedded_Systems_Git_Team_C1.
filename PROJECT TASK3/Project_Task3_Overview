@@ -1,0 +1,10 @@
+Task 3
+ Traffic Light System
+ Mapping of task 1 to a (real) Arduino in the lab
+ Show that the realized diagrams (state machine and class 
+diagram) as well as the simulation are mapped quite well to the 
+real/target system.
+ Also show that you have used Git in a professional manner
+  Well-defined structure of the project (folders, ...)
+  Use of suitable formats (versionable formats are preferred)
+  Regular updates (not only when the task is completed)
