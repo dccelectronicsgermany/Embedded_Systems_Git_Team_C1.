@@ -1,0 +1,69 @@
+// Pin definitions
+#define carGreen 2
+#define carYellow 3
+#define carRed 4
+#define pedRed 5
+#define pedGreen 6
+#define buttonPin 7
+
+void setup() {
+  pinMode(carGreen, OUTPUT);
+  pinMode(carYellow, OUTPUT);
+  pinMode(carRed, OUTPUT);
+  pinMode(pedRed, OUTPUT);
+  pinMode(pedGreen, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  // Initial states
+  digitalWrite(carGreen, HIGH);
+  digitalWrite(pedRed, HIGH);
+}
+
+void loop() {
+
+  // Normal traffic cycle
+  digitalWrite(carGreen, HIGH);
+  digitalWrite(carYellow, LOW);
+  digitalWrite(carRed, LOW);
+  digitalWrite(pedRed, HIGH);
+  digitalWrite(pedGreen, LOW);
+  delay(5000);
+
+  digitalWrite(carGreen, LOW);
+  digitalWrite(carYellow, HIGH);
+  delay(2000);
+
+  digitalWrite(carYellow, LOW);
+  digitalWrite(carRed, HIGH);
+  delay(5000);
+
+  // Check if pedestrian requested
+  if (digitalRead(buttonPin) == LOW) {
+    pedestrianCrossing();
+  }
+}
+
+void pedestrianCrossing() {
+
+  // Cars stop
+  digitalWrite(carGreen, LOW);
+  digitalWrite(carYellow, LOW);
+  digitalWrite(carRed, HIGH);
+
+  // Pedestrians walk
+  digitalWrite(pedRed, LOW);
+  digitalWrite(pedGreen, HIGH);
+  delay(5000);
+
+  // Reset
+  digitalWrite(pedGreen, LOW);
+  digitalWrite(pedRed, HIGH);
+
+  // Prepare cars
+  digitalWrite(carRed, HIGH);
+  delay(2000);
+
+  // Cars go again
+  digitalWrite(carRed, LOW);
+  digitalWrite(carGreen, HIGH);
+}
