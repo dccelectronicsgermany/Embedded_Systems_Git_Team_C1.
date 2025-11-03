@@ -1,7 +1,7 @@
 // Pin definitions
-#define carGreen 2
+#define carRed 2
 #define carYellow 3
-#define carRed 4
+#define carGreen 4
 #define pedRed 5
 #define pedGreen 6
 #define buttonPin 7
