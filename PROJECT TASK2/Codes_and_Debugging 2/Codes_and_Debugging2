@@ -1,1 +1,65 @@
+const int redTlight = 2;
+const int yellowTlight = 3;
+const int greenTlight = 4;
 
+const int redPed = 5;
+const int greenPed = 6;
+
+const int buttonPin = 8;
+
+const int greenTlightDuration = 2000;
+const int yellowDuration = 2000;
+const int pedestrianGreenDuration = 3000;
+
+bool buttonpressed = false;
+
+void setup() {
+  pinMode(redTlight, OUTPUT);
+  pinMode(yellowTlight, OUTPUT);
+  pinMode(greenTlight, OUTPUT);
+  pinMode(redPed, OUTPUT);
+  pinMode(greenPed, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  digitalWrite(greenTlight, HIGH);
+  digitalWrite(yellowTlight, LOW);
+  digitalWrite(redTlight, LOW);
+  digitalWrite(redPed, HIGH);
+  digitalWrite(greenPed, LOW);
+}
+
+void loop() {
+  digitalWrite(greenTlight, HIGH);
+  digitalWrite(yellowTlight, LOW);
+  digitalWrite(redTlight, LOW);
+  digitalWrite(redPed, HIGH);
+  digitalWrite(greenPed, LOW);
+
+  int greenTime = greenTlightDuration;
+  for (int i = 0; i < greenTlightDuration / 100; i++) {
+    if (digitalRead(buttonPin) == LOW) {
+      buttonpressed = true;
+      greenTime = 500;
+      break;
+    }
+    delay(100);
+  }
+
+  delay(greenTime);
+
+  digitalWrite(greenTlight, LOW);
+  digitalWrite(yellowTlight, HIGH);
+  delay(buttonpressed ? 500 : yellowDuration);
+
+  digitalWrite(yellowTlight, LOW);
+  digitalWrite(redTlight, HIGH);
+
+  digitalWrite(redPed, LOW);
+  digitalWrite(greenPed, HIGH);
+  delay(pedestrianGreenDuration);
+  digitalWrite(greenPed, LOW);
+  digitalWrite(redPed, HIGH);
+
+  buttonpressed = false;
+  delay(1000); 
+}
